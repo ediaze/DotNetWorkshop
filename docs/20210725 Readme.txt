@@ -4,6 +4,7 @@ https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/top-level-sta
 https://www.thomasclaudiushuber.com/2020/08/18/c-9-top-level-statements-or-should-i-say-hey-wheres-the-main-method/
 https://docs.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/types
 https://devblogs.microsoft.com/dotnet/c-9-0-on-the-record/
+https://www.dotnetcurry.com/csharp/simpler-code-with-csharp-9
 
 C# 9 - Top-Level Statements
 https://youtu.be/yZGSOafui44

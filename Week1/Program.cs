@@ -7,47 +7,44 @@ var input = new [] {
     "Fd1265ca4294", "Eff4", "db9485b22f0e",
     "D5d4acf1-9175-4ff4-9938-39cf9e0b706b"
 };
-var showFaults = true;
-var iterations = 1;
+var iterations = int.TryParse(args.Length > 0 ? args[0] : "1", out int attempts) ? attempts : 1;
+var showFaults = bool.TryParse(args.Length > 1 ? args[1] : "true", out bool print) ? print : true;
 
-Console.WriteLine("Week 1.2");
+Console.WriteLine("Week 1.3");
 
 RunApp(input, new Func<string, string[]>(ValidateWithIfStatements), iterations, showFaults);
 RunApp(input, new Func<string, string[]>(ValidateWithRegExpStatements), iterations, showFaults);
 
-static void RunApp(string[] values, Func<string, string[]> handler, int iterations, bool showFaults)
+static void RunApp(string[] values, Func<string, string[]> validationMethod, int iterations, bool showFaults)
 {
     if(values == null)
     {
         return;
     }
     
-    var start = DateTime.Now;
-    Console.WriteLine();
+    var startTime = DateTime.Now;
+    var startMemory = Process.GetCurrentProcess().WorkingSet64;
 
     for(var iteration=0; iteration<iterations; iteration++)
     {
         foreach(var id in values)
         {
-            var errores = handler(id);
-            if(showFaults)
-            {
-                PrintErrors(id, errores);
-            }
+            var errores = validationMethod(id);
+            PrintErrors(id, errores, showFaults);
         }
-        Console.Write(iteration % 10 == 0 && iteration > 0 ? "#" : ".");
+        if(!showFaults)
+        {
+            Console.Write(iteration % 10 == 0 ? "*" : ".");
+        }
     }
     
-    ProcessUsage(start);
+    ProcessUsage(validationMethod.Method.Name, startTime, startMemory);
 }
 
 static string[] ValidateWithIfStatements(string id)
 {
-    string currentMethodName = nameof(ValidateWithIfStatements);
     List<string> errors = new List<string>();
-    id = (id != null && id.Length > 0) ? id : string.Empty;
-
-    Console.Write($"+ [{currentMethodName}] ");
+    id = CleanIdParameter(id);
 
     if (id.Length < 5 || id.Length > 32)
     {
@@ -65,12 +62,8 @@ static string[] ValidateWithRegExpStatements(string id)
     var pattern_rule1 = @"^\w{5,32}$";
     var pattern_rule2 = @"[A-Z]";
     List<string> errors = new List<string>();
-    id = (id != null && id.Length > 0) ? id : string.Empty;
-    string currentMethodName = nameof(ValidateWithRegExpStatements);
 
-    Console.Write($"+ [{currentMethodName}] ");
-
-    if (!Regex.IsMatch(id, pattern_rule1))
+    if (!Regex.IsMatch(id = CleanIdParameter(id), pattern_rule1))
     {
         errors.Add("A valid ID must have a minimum of 5 characters and a maximum of 32");
     }
@@ -81,8 +74,17 @@ static string[] ValidateWithRegExpStatements(string id)
     return errors.ToArray();
 }
 
-static void PrintErrors(string id, string[] errors)
+static string CleanIdParameter(string id) 
 {
+    return (id != null && id.Length > 0) ? id : string.Empty;
+}
+
+static void PrintErrors(string id, string[] errors, bool showFaults)
+{
+    if(!showFaults)
+    {
+        return;
+    }
     var summary = errors?.Length > 0 ? string.Empty : "OK";
     Console.WriteLine($"Id {id}, validation results: {summary}");
     foreach(var error in errors)
@@ -92,13 +94,11 @@ static void PrintErrors(string id, string[] errors)
     Console.WriteLine();
 }
 
-static void ProcessUsage(DateTime start)
+static void ProcessUsage(string methodName, DateTime startTime, long startMemory)
 {
-    var currentProcess = Process.GetCurrentProcess();
-    var totalBytesOfMemoryUsed = currentProcess.WorkingSet64;
-    var currentProcessName = Process.GetCurrentProcess().ProcessName;
-    
+    var duration = DateTime.Now.Subtract(startTime).TotalMilliseconds;
+    var memoryUsage = (Process.GetCurrentProcess().WorkingSet64 - startMemory) / 1024;
+
     Console.WriteLine();
-    Console.WriteLine($"Process duration ms: {DateTime.Now.Subtract(start).TotalMilliseconds}");
-    Console.WriteLine($"Process memory kb: {totalBytesOfMemoryUsed / 1024}");
+    Console.WriteLine($"# Method {methodName} duration {duration} ms, memory usage {memoryUsage} kb");
 }

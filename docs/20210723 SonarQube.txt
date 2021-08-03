@@ -1,0 +1,28 @@
+Les dejo los pasos para instalar SonarQube localmente
+
+Install Docker Desktop
+-------------------------
+https://www.docker.com/products/docker-desktop
+
+Install Docker Image
+----------------------
+https://www.sonarqube.org/features/deployment/
+
+docker pull sonarqube:9.0-community
+
+Install the nuget
+------------------
+dotnet tool install --global dotnet-sonarscanner
+
+Setup the Project and get the token
+------------------------------------
+WorkShopNet: 83d077f5ba06fe7879067b5f19fd317c6ab78b2d
+
+Run Analysis
+--------------
+dotnet sonarscanner begin /k:"WorkShopNet" /d:sonar.host.url="http://localhost:9000"  /d:sonar.login="83d077f5ba06fe7879067b5f19fd317c6ab78b2d"
+dotnet build
+dotnet test
+dotnet sonarscanner end /d:sonar.login="83d077f5ba06fe7879067b5f19fd317c6ab78b2d"
+
+https://medium.com/@HoussemDellai/setup-sonarqube-in-a-docker-container-3c3908b624df
