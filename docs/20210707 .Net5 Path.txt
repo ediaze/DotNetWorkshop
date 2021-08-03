@@ -1,0 +1,38 @@
+.Net Core
+* Proyecto WebAPI en .NET Core
++ El archivo de configuración
++ Secciones del inicio del programa
++ Línea de comandos
+
+* APIs seguras
++ Conceptos REST
++ REST vs GraphQL
++ Autenticación por Token
++ Swagger
++ HealtChecks
++ Métricas
++ Middlewares
+
+* Entity Framework para interactuar con bases de datos relacionales
++ Implementación base relacional de pruebas
++ Mapear la base de datos a un modelo
++ Patrón Repository
++ Patrón UnitOfWork
++ LINQ, Sintaxis Lambda y Query
++ Errores comunes
+
+* Pruebas Unitarias
++ Xunit: FACT vs Theory
++ Pruebas genéricas usando Reflection
++ Cobertura
++ Consumo de Servicios WebAPI
++ Mocks de servicios vs pruebas de Integración
+
+* Conceptos Cloud
++ Serverless
++ Backend con API Gateway y Serverless vs WebAPI - Costos
++ Vaults
+
+* Mejores prácticas de codificación
++ Code Smells
++ Clean Code

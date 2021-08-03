@@ -1,0 +1,25 @@
+https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9
+https://github.com/dotnet/roslyn/issues/49649
+https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/top-level-statements
+https://www.thomasclaudiushuber.com/2020/08/18/c-9-top-level-statements-or-should-i-say-hey-wheres-the-main-method/
+https://docs.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/types
+https://devblogs.microsoft.com/dotnet/c-9-0-on-the-record/
+
+C# 9 - Top-Level Statements
+https://youtu.be/yZGSOafui44
+
+-------------------------------------------------------------------
+
+dotnet new console
+
+dotnet run -- Should I use top level statements in all my programs?
+
+-------------------------------------------------------------------
+Adding an existing project to GitHub using the command line
+-------------------------------------------------------------------
+
+$ git init -b master
+$ git add .
+$ git remote add origin https://github.com/ediaze/WorkshopFullStack.git
+$ git remote -v
+$ git push origin master

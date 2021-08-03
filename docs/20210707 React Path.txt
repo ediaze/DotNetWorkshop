@@ -1,0 +1,43 @@
+Path de React:
+
+* Javascript in deep
+- Variables (Tipos, scope)
+- Closure
+- Ciclos (enumerable, iterable, forin, forof)
+- Paradigmas (Funcional, objetual, prototipos, eventos)
+- Asincronicidad (Callback, promise, async)
+- Context
+- Ecmascript & ES6
+ - Arrow functions
+ - Const vs Let vs Var
+- Comparaciones estrictas
+
+* React
+- Componentes de clase
+- Componentes funcionales
+- React Hooks
+- LifeCycle
+- Virtual DOM
+- Keys/Refs
+
+* Redux
+- Flux
+- Store
+- Reducers
+- Actions
+
+* HTML + CSS
+- HTML5 semantica
+- Accesibilidad
+- DOM
+- Preprocesadores (SASS, LESS)
+- Flexbox
+- Grid CSS
+- Specifity
+- CCS -3
+- Responsive Design
+
+* Pruebas unitarias
+- Jest
+- testing mocking server response
+- Testing components
