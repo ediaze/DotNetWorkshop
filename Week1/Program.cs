@@ -4,16 +4,17 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 var input = new [] {
-    "Fd1265ca4294", "Eff4", "db9485b22f0e",
+    "Fd1265ca4294", "Eff4", "db9485b22f0e", "1234",
     "D5d4acf1-9175-4ff4-9938-39cf9e0b706b"
 };
 var iterations = int.TryParse(args.Length > 0 ? args[0] : "1", out int attempts) ? attempts : 1;
 var showFaults = bool.TryParse(args.Length > 1 ? args[1] : "true", out bool print) ? print : true;
 
-Console.WriteLine("Week 1.3");
+Console.WriteLine(">>> Week 1.4 <<<");
 
-RunApp(input, new Func<string, string[]>(ValidateWithIfStatements), iterations, showFaults);
 RunApp(input, new Func<string, string[]>(ValidateWithRegExpStatements), iterations, showFaults);
+RunApp(input, new Func<string, string[]>(ValidateWithIfStatements), iterations, showFaults);
+RunApp(input, new Func<string, string[]>(ValidateWithExceptionStatements), iterations, showFaults);
 
 static void RunApp(string[] values, Func<string, string[]> validationMethod, int iterations, bool showFaults)
 {
@@ -38,12 +39,12 @@ static void RunApp(string[] values, Func<string, string[]> validationMethod, int
         }
     }
     
-    ProcessUsage(validationMethod.Method.Name, startTime, startMemory);
+    PrintProcessUsage(validationMethod.Method.Name, startTime, startMemory);
 }
 
 static string[] ValidateWithIfStatements(string id)
 {
-    List<string> errors = new List<string>();
+    var errors = new List<string>();
     id = CleanIdParameter(id);
 
     if (id.Length < 5 || id.Length > 32)
@@ -61,7 +62,7 @@ static string[] ValidateWithRegExpStatements(string id)
 {
     var pattern_rule1 = @"^\w{5,32}$";
     var pattern_rule2 = @"[A-Z]";
-    List<string> errors = new List<string>();
+    var errors = new List<string>();
 
     if (!Regex.IsMatch(id = CleanIdParameter(id), pattern_rule1))
     {
@@ -70,6 +71,36 @@ static string[] ValidateWithRegExpStatements(string id)
     if (id.Length > 0 && !Regex.IsMatch(id.Substring(0, 1), pattern_rule2))
     {
         errors.Add("A valid ID must start with a capital letter: A-Z");
+    }
+    return errors.ToArray();
+}
+
+static string[] ValidateWithExceptionStatements(string id)
+{
+    var errors = new List<string>();
+    id = CleanIdParameter(id);
+
+    try
+    {
+        if (id.Length < 5 || id.Length > 32)
+        {
+            throw new ApplicationException("A valid ID must have a minimum of 5 characters and a maximum of 32");
+        }
+    }
+    catch(ApplicationException ex)
+    {
+        errors.Add(ex.Message);
+    }
+    try
+    {
+        if (id.Length > 0 && !(id[0] >= 'A' && id[0] <= 'Z'))
+        {
+            throw new ApplicationException("A valid ID must start with a capital letter: A-Z");
+        }
+    }
+    catch(ApplicationException ex)
+    {
+        errors.Add(ex.Message);
     }
     return errors.ToArray();
 }
@@ -94,7 +125,7 @@ static void PrintErrors(string id, string[] errors, bool showFaults)
     Console.WriteLine();
 }
 
-static void ProcessUsage(string methodName, DateTime startTime, long startMemory)
+static void PrintProcessUsage(string methodName, DateTime startTime, long startMemory)
 {
     var duration = DateTime.Now.Subtract(startTime).TotalMilliseconds;
     var memoryUsage = (Process.GetCurrentProcess().WorkingSet64 - startMemory) / 1024;
