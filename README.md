@@ -1,2 +1,2 @@
-# WorkshopFullStack
+# DotNetWorkshop
  WorkshopFullStack
